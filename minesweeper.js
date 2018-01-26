@@ -2,11 +2,62 @@ document.addEventListener('DOMContentLoaded', startGame)
 
 // Define your `board` object here!
 var board = {
-  cells: [{ row: 0, col: 0, isMine: true, hidden: true},
-          { row: 0, col: 1, isMine: false, hidden: true},
-          { row: 1, col: 0, isMine: false, hidden: true},
-          { row: 1, col: 1, isMine: false, hidden: true}]
-
+  cells: [{
+    row: 0,
+    col: 0,
+    isMine: false,
+    hidden: true
+  },
+  {
+    row: 0,
+    col: 1,
+    isMine: true,
+    hidden: true
+  },
+  {
+    row: 1,
+    col: 0,
+    isMine: false,
+    hidden: true
+  },
+   {
+     row: 1,
+     col: 1,
+     isMine: false,
+     hidden: true
+   },
+   {
+     row: 2,
+     col: 0,
+     isMine: false,
+     hidden: true
+   },
+   {
+     row: 2,
+     col: 1,
+     isMine: true,
+     hidden: true
+   },
+   {
+     row: 0,
+     col: 2,
+     isMine: false,
+     hidden: true
+   },
+   {
+     row: 1,
+     col: 2,
+     isMine: false,
+     hidden: true
+   },
+   {
+     row: 2,
+     col: 2,
+     isMine: false,
+     hidden: true
+   }
+  
+ ]
 }
 
 
@@ -14,7 +65,8 @@ function startGame () {
   for(let i = 0; i < board.cells.length; i++) {
     board.cells[i].surroundingMines = countSurroundingMines(board.cells[i])
   }
-
+  document.addEventListener('click', checkForWin)
+  document.addEventListener('contextmenu', checkForWin)
   // Don't remove this function call: it makes the game work!
   lib.initBoard()
 }
@@ -25,9 +77,23 @@ function startGame () {
 // 2. Are all of the mines marked?
 function checkForWin () {
 
-  // You can use this function call to declare a winner (once you've
-  // detected that they've won, that is!)
-  //   lib.displayMessage('You win!')
+  let goodCells = 0
+
+  for (let i = 0; i < board.cells.length; i++) {
+    const cell = board.cells[i]
+    if (!cell.isMine && !cell.hidden){
+      goodCells++
+    }
+
+    if (cell.isMine && cell.isMarked){
+      goodCells++
+    }
+  }
+
+  if (goodCells === board.cells.length) {
+    lib.displayMessage('You win!')
+  }
+
 }
 
 // Define this function to count the number of mines around the cell
